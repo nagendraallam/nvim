@@ -52,9 +52,11 @@ TypeScript, React, HTML, CSS, Tailwind-heavy markup, Lua, Python, and Rust.
 
 Save shortcuts on macOS:
 
-- `Cmd-n`: prompt for a path and open a new file buffer in the current project
+- `Space-n`: prompt for a path and open a new file buffer in the current project
 - `Cmd-s`: save the current buffer
 - `Cmd-Shift-s`: save all modified buffers
+- `Tab` / `Shift-Tab`: move to the next / previous buffer tab
+- `Cmd-1` through `Cmd-9`: jump directly to buffer tabs 1 through 9
 
 Environment files, key files, credential/secret-named files, special buffers,
 and files larger than 1 MiB are excluded automatically.

@@ -50,6 +50,11 @@ TypeScript, React, HTML, CSS, Tailwind-heavy markup, Lua, Python, and Rust.
   for this Neovim session. They are enabled again after restarting Neovim.
 - `:OllamaStatus`: show the current model and status
 
+Save shortcuts on macOS:
+
+- `Cmd-s`: save the current buffer
+- `Cmd-Shift-s`: save all modified buffers
+
 Environment files, key files, credential/secret-named files, special buffers,
 and files larger than 1 MiB are excluded automatically.
 

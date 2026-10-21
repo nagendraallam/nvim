@@ -15,10 +15,13 @@ map("n", "<A-d>", function()
   })
 end, { desc = "Show diagnostics (float)" })
 
--- Cmd + s → save all files
-map("n", "<D-s>", "<cmd>wa<CR>", { desc = "Save all files" })
-map({ "i", "v" }, "<D-s>", "<Esc><cmd>wa<CR>", { desc = "Save all files" })
-map("c", "<D-s>", "<C-c><cmd>wa<CR>", { desc = "Save all files" })
+-- Cmd + s → save the current buffer
+map({ "n", "i", "v" }, "<D-s>", "<Cmd>update<CR>", { desc = "Save current buffer" })
+map("c", "<D-s>", "<C-c><Cmd>update<CR>", { desc = "Save current buffer" })
+
+-- Cmd + Shift + s → save all buffers
+map({ "n", "i", "v" }, "<D-S-s>", "<Cmd>wall<CR>", { desc = "Save all buffers" })
+map("c", "<D-S-s>", "<C-c><Cmd>wall<CR>", { desc = "Save all buffers" })
 
 map("n", "<leader>ft", function()
   require("conform").format { lsp_format = "fallback" }

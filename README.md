@@ -43,10 +43,11 @@ uses Ollama's fill-in-the-middle support, so it considers code on both sides of
 the cursor. It works in regular code buffers, including Go, JavaScript,
 TypeScript, React, HTML, CSS, Tailwind-heavy markup, Lua, Python, and Rust.
 
-- `Ctrl-y`: accept the visible suggestion
-- `Ctrl-]`: dismiss the visible suggestion
+- `Tab`: accept the visible local suggestion. When none is visible, it keeps its
+  normal completion-menu, snippet, and indentation behavior.
 - `:OllamaComplete`: request a suggestion immediately
-- `:OllamaToggle`: enable or disable automatic suggestions
+- `:OllamaStopProject`: stop suggestions for every buffer in the current project
+  for this Neovim session. They are enabled again after restarting Neovim.
 - `:OllamaStatus`: show the current model and status
 
 Environment files, key files, credential/secret-named files, special buffers,

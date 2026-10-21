@@ -15,7 +15,7 @@ local defaults = {
 local config = vim.deepcopy(defaults)
 local namespace = vim.api.nvim_create_namespace "local_completion"
 local states = {}
-local enabled = true
+local stopped_projects = {}
 local error_was_reported = false
 
 local excluded_filetypes = {
@@ -71,8 +71,18 @@ local function is_sensitive_path(path)
     or name:match "%.key$" ~= nil
 end
 
+local function project_root(buf)
+  local path = vim.api.nvim_buf_get_name(buf)
+  local root = path ~= "" and vim.fs.root(path, ".git") or nil
+  return vim.fs.normalize(root or vim.fn.getcwd())
+end
+
 local function buffer_is_eligible(buf)
-  if not enabled or not vim.api.nvim_buf_is_valid(buf) or not vim.bo[buf].modifiable then
+  if not vim.api.nvim_buf_is_valid(buf) or not vim.bo[buf].modifiable then
+    return false
+  end
+
+  if stopped_projects[project_root(buf)] then
     return false
   end
 
@@ -299,29 +309,32 @@ function M.accept()
   return true
 end
 
-function M.dismiss()
-  clear(vim.api.nvim_get_current_buf(), true)
-end
-
 function M.complete()
   request(vim.api.nvim_get_current_buf(), true)
 end
 
-function M.toggle()
-  enabled = not enabled
-  if not enabled then
-    for buf in pairs(states) do
+function M.stop_project()
+  local root = project_root(vim.api.nvim_get_current_buf())
+  stopped_projects[root] = true
+
+  for buf in pairs(states) do
+    if vim.api.nvim_buf_is_valid(buf) and project_root(buf) == root then
       clear(buf, true)
     end
   end
-  vim.notify("Local completion " .. (enabled and "enabled" or "disabled"))
+
+  vim.notify("Local completion stopped for " .. root .. " until Neovim restarts")
 end
 
 function M.status()
-  local state = state_for(vim.api.nvim_get_current_buf())
+  local buf = vim.api.nvim_get_current_buf()
+  local state = state_for(buf)
+  local root = project_root(buf)
   return {
-    enabled = enabled,
+    enabled = not stopped_projects[root],
     model = config.model,
+    project = root,
+    project_stopped = stopped_projects[root] == true,
     has_suggestion = state.suggestion ~= nil,
     last_error = state.last_error,
   }
@@ -344,16 +357,10 @@ function M.setup(options)
     end,
   })
 
-  vim.keymap.set("i", "<C-y>", function()
-    if not M.accept() then
-      local key = vim.api.nvim_replace_termcodes("<C-y>", true, false, true)
-      vim.api.nvim_feedkeys(key, "n", false)
-    end
-  end, { desc = "Accept local AI completion" })
-  vim.keymap.set("i", "<C-]>", M.dismiss, { desc = "Dismiss local AI completion" })
-
   vim.api.nvim_create_user_command("OllamaComplete", M.complete, { desc = "Request local AI completion" })
-  vim.api.nvim_create_user_command("OllamaToggle", M.toggle, { desc = "Toggle local AI completion" })
+  vim.api.nvim_create_user_command("OllamaStopProject", M.stop_project, {
+    desc = "Stop local AI completion for this project until Neovim restarts",
+  })
   vim.api.nvim_create_user_command("OllamaStatus", function()
     vim.notify(vim.inspect(M.status()))
   end, { desc = "Show local AI completion status" })

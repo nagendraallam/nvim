@@ -19,9 +19,4 @@ return {
       PATH = "prepend",
     },
   },
-
-  {
-    "github/copilot.vim",
-    lazy = false,
-  },
 }

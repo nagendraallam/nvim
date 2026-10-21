@@ -7,7 +7,6 @@ My personal Neovim setup, based on [NvChad](https://nvchad.com/).
 - Gruvchad theme
 - LSP support for web development, Python, Rust, and Go
 - Format-on-save with Conform
-- GitHub Copilot
 - macOS-friendly save, diagnostics, and window mappings
 
 ## Install

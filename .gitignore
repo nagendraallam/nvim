@@ -8,3 +8,11 @@
 .luarc.json
 .nvim.lua
 spell/
+
+# Secrets and credentials
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx

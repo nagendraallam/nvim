@@ -31,6 +31,7 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
 require "autocmds"
+require("local_completion").setup()
 
 vim.schedule(function()
   require "mappings"

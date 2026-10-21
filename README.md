@@ -1,9 +1,33 @@
-**This repo is supposed to be used as config by NvChad users!**
+# Neovim config
 
-- The main nvchad repo (NvChad/NvChad) is used as a plugin by this repo.
-- So you just import its modules , like `require "nvchad.options" , require "nvchad.mappings"`
-- So you can delete the .git from this repo ( when you clone it locally ) or fork it :)
+My personal Neovim setup, based on [NvChad](https://nvchad.com/).
 
-# Credits
+## Highlights
 
-1) Lazyvim starter https://github.com/LazyVim/starter as nvchad's starter was inspired by Lazyvim's . It made a lot of things easier!
+- Gruvchad theme
+- LSP support for web development, Python, Rust, and Go
+- Format-on-save with Conform
+- GitHub Copilot
+- macOS-friendly save, diagnostics, and window mappings
+
+## Install
+
+Back up any existing Neovim config, then clone this repository:
+
+```sh
+git clone https://github.com/nagendraallam/nvim.git ~/.config/nvim
+nvim
+```
+
+Plugins install automatically on first launch. Install the configured language
+servers and formatters with `:Mason` as needed. The current setup expects:
+
+- Language servers: `html-lsp`, `css-lsp`, `vtsls`, `rust-analyzer`, `pyright`,
+  `gopls`, and `tailwindcss-language-server`
+- Formatters: `stylua`, `ruff`, and `prettier`
+
+The plugin lockfile is committed so installs remain reproducible.
+
+## Credits
+
+Built from the [NvChad starter](https://github.com/NvChad/starter).

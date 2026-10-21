@@ -1,0 +1,10 @@
+.DS_Store
+*.log
+*.swp
+*.swo
+*~
+
+# Machine-local Neovim configuration
+.luarc.json
+.nvim.lua
+spell/
